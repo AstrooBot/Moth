@@ -6,12 +6,17 @@ plugins necesarios para el correcto funcionamiento:
     - sshpass
     - openssh-clients
     - openssh-server
+
 Dependiendo del entorno de escritorio que tengas, puedes escoger una de las siguientes opciones:
-    Para GNOME:
+    
+Para GNOME:
       - gedit
-    Para Cinnamon:  
+   
+ Para Cinnamon:  
       - xed
-    Para XFce:  
+   
+ Para XFce:  
       - mousepad
-    Para KDE:
+   
+ Para KDE:
       - kate
