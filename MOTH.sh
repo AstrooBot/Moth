@@ -36,8 +36,6 @@ fi
 
 if [ $flag == '-s' ];then
 
-	echo "Ejemplo"
-
         read -p "Usuario: " hostName
         read -p "IP: " hostIP
         read -sp "Contraseña: " hostPass
@@ -85,7 +83,7 @@ if [ $flag == '-s' ];then
           editor="xed" 
           ;;
         esac
-
+	
 	openMessage="$editor ${remoteDesktopPath}/message.txt"
         sshpass -p "$hostPass" ssh "$remoteHost" "$openMessage"	
 fi
