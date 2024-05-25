@@ -10,13 +10,17 @@ plugins necesarios para el correcto funcionamiento:
 Dependiendo del entorno de escritorio que tengas, puedes escoger una de las siguientes opciones:
     
 Para GNOME:
+
       - gedit
    
  Para Cinnamon:  
+ 
       - xed
    
  Para XFce:  
+ 
       - mousepad
    
  Para KDE:
+ 
       - kate
