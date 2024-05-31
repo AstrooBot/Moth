@@ -4,37 +4,37 @@ flag=$1
   
 if [ -z "$flag" ]; then
 
-	read -p "Usuario: " hostName
-	read -p "IP: " hostIP
-	read -sp "Contraseña: " hostPass 
-	echo
-	read -p "Mensaje a enviar: " message
+read -p " > Nombre del usuario destino: " hostname
+read -p " > Dirección IP del usuario destino: " hostIP
+read -sp "> Contraseña: " hostPass
+echo
+read -p "> Mensaje que desea enviar: " message
 
-	remoteHost="$hostName@$hostIP"
+remoteHost="$hostname@$hostIP"
 
-	filePath="$HOME/Desktop/message.txt"
-	echo $message > $filePath
+#Ruta del archivo a enviar en desde mi máquina
+filePath="$HOME/Desktop/Mensaje_enviado.txt"
+echo "$message" > "$filePath"
 
-	echo $remoteHost > keys.txt
+remoteDesktopPath=$(sshpass -p "$hostPass" ssh "$remoteHost" 'echo $HOME/Desktop')
+remoteDesktopPath="$(echo "$remoteDesktopPath" | tr -d '[:space:]')"
 
-	remoteDesktopPath=$(sshpass -p "$hostPass" ssh "$remoteHost" 'echo $HOME/Desktop')
-	remoteDesktopPath=$(echo "$remoteDesktopPath" | tr -d '[:space:]')
+destinationPath="${remoteHost}:${remoteDesktopPath}"
 
-	destinationPath="${remoteHost}:${remoteDesktopPath}"
+sshpass -p "$hostPass" scp "$filePath" "$destinationPath"
 
-	sshpass -p "$hostPass" scp "$filePath" "$destinationPath"
+echo
+echo ' ~Transferencia realizada ~ '
+echo
 
-	echo
-	echo "Transferencia finalizada"
-	echo
+fileName=$(basename "$filePath")
 
-	fileName=$(basename "$filePath")
-
-	sshpass -p "$hostPass" ssh "$remoteHost" "${remoteDesktopPath}/notification.sh $fileName"
+notificationCommand="notify-send 'Archivo recibido' 'Ha recibido el archivo $fileName en el escritorio'"
+sshpass -p "$hostPass" ssh "$remoteHost" "$notificationCommand"
 
 elif [ $flag == '-s' ];then
 
-  cat $HOME/Desktop/message.txt 2> moth_error_log.txt
+  cat $HOME/Desktop/Mensaje_enviado.txt 2> moth_error_log.txt
   
   if [[ $? -eq 1 ]];then
 
@@ -43,5 +43,6 @@ elif [ $flag == '-s' ];then
   fi
 
 fi
+
 
 
